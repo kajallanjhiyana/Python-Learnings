@@ -1,18 +1,15 @@
-from turtle import *
+import turtle
 
-tim = Turtle()
-screen = Screen()
+t = turtle.Turtle()
 
-colormode(255)
-tim.fillcolor((255, 0, 147))
-tim.begin_fill()
-count = 0
-start = tim.pos()
-while True:
-    forward(count)
-    left(360)
-    count+=1
-    if tim.pos == start:
-        break
+radius = 50
+steps = 360                     # more steps = smoother circle
+circumference = 2 * 3.14159 * radius
+step_length = circumference / steps
+turn_angle = 360 / steps
 
-screen.exitonclick()
+for _ in range(steps):
+    t.forward(step_length)
+    t.left(turn_angle)
+
+turtle.done()
