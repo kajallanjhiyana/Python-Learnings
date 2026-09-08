@@ -2,7 +2,7 @@ import turtle
 
 t = turtle.Turtle()
 
-radius = 50
+radius = 180
 steps = 360                     # more steps = smoother circle
 circumference = 2 * 3.14159 * radius
 step_length = circumference / steps
