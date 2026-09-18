@@ -10,6 +10,7 @@ screen = Screen()
 is_game_on = True
 food_ate = False
 tail_length = 3
+last_speed_up_score = 0
 
 screen.setup(width = 1200, height = 1200)
 screen.bgcolor("black")
@@ -62,36 +63,37 @@ def generate_food():
     
 
 #!Increase speed of snake
-speed = 10
-def set_speed():
-    global snake_obj
-    s = snake_obj.speed()
-    print(s)
-    if s <10:
-        snake_obj.speed(s+1)
+def increase_speed():
+    global current_speed
+    if current_speed < 10:
+        current_speed += 2
+        snake_obj.speed(current_speed)
+        for segment in snake_body:
+            segment.speed(current_speed)
+    print("speed =", current_speed)
 
 #! Track if food is ate
 def food_ate_check():
     global food_ate
-    # print("for snake")
-    # print("x = ", snake_obj.xcor())
-    # print("y = ", snake_obj.ycor())
-    # print("for food")
-    # print("x = ", food_obj.xcor())
-    # print("y = ", food_obj.ycor())
     if snake_obj.distance(food_obj)<15 or (snake_obj.xcor() == food_obj.xcor() and snake_obj.ycor() == food_obj.ycor()):
         food_ate = True
-        print("Food ate")
 
 #Increase snake's size
 def increase_snake_size():
     global tail_length
-    tail_length +=1
+    tail_length += 1
     snake_obj2 = Turtle("square")
     snake_obj2.color("white")
-    snake_obj2.speed(1)
+    snake_obj2.speed(current_speed)   # match current game speed, not default 3
+    snake_obj2.penup()
+
+    if len(snake_body) > 0:
+        last_x, last_y = snake_body[-1].xcor(), snake_body[-1].ycor()
+    else:
+        last_x, last_y = snake_obj.xcor(), snake_obj.ycor()
+    snake_obj2.goto(last_x, last_y)
+
     snake_body.append(snake_obj2)
-    snake_obj2.penup()  
 
 # Move snake body 
 def move_snake():
@@ -114,12 +116,14 @@ def check_wall_collision():
     if snake_obj.xcor() > 590 or snake_obj.xcor() < -590 or \
        snake_obj.ycor() > 590 or snake_obj.ycor() < -590:
         is_game_on = False
+        print("Wall collision occurred")
 
 def check_tail_collision():
     global is_game_on
-    for segment in snake_body:
+    for segment in snake_body[4:]:      # skip the 4 segments nearest the head
         if snake_obj.distance(segment) < 10:
             is_game_on = False
+            print("Tail collision occurred")
 
 def game_over():
     tim.penup()
@@ -131,7 +135,8 @@ def game_over():
 snake_obj.home()
 snake_obj.color("white")
 snake_obj.setheading(0)
-snake_obj.speed(1)
+current_speed = 1
+snake_obj.speed(current_speed) 
 generate_food()
 update_score()
 while is_game_on:
@@ -149,9 +154,12 @@ while is_game_on:
         update_score()
         increase_snake_size()
 
-    if score!= 0 and score%5 == 0:
+    if score != 0 and score % 2 == 0 and score != last_speed_up_score:
         print("Speed is increased")
-        set_speed()
+        increase_speed()
+        increase_snake_size()
+        last_speed_up_score = score
+
     check_wall_collision()
     check_tail_collision()
 
