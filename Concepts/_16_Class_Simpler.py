@@ -1,8 +1,9 @@
+c = True
 class Account:
     first_name = ""
     last_name = "L"
     password = ""
-    __balance = ""
+    __balance = 0
     login = False
     def __init__(self):
         name = input("Enter name: ")
@@ -14,7 +15,12 @@ class Account:
         else:
             print("Wrong password entered!")
             self.login = False
+
+    def check_balance(self, balance):
+            print("Current balance = ", balance)
+
     def menu(self):
+        global c
         print("""
                 press 1 - To display account details
                 press 2 - To change account password
@@ -25,7 +31,7 @@ class Account:
             """)
         c = True
         while c:
-            ch = int(input("Enter your choice"))
+            ch = int(input("Enter your choice: "))
             if ch == 1:
                 print("Account holder's name: ", self.first_name, " ", self.last_name)
             elif ch == 2:
@@ -37,6 +43,14 @@ class Account:
                     self.password = new
                 else:
                     print("Wrong password")
+            elif ch == 3:
+                self.check_balance(self.__balance)
+            elif ch == 4:
+                amount = int(input("Enter amount: "))
+                self.withdraw(amount)
+            elif ch == 5:
+                amount = int(input("Enter amount to add: "))
+                self.deposit(amount)
             else:
                 print("Thank You have a great day!")
                 c = False
@@ -51,15 +65,18 @@ class Account:
             obj = Son()
             
 
-    def withdraw(self, amount, balance):
-        if balance < amount:
+    def withdraw(self, amount):
+        if self.__balance < amount:
+            print("hello withdrawn")
             return "Oops not enough balance to withdraw"
         else:
             self.__balance -= amount
+            print("hello ")
             return f"Withdrawn {amount} from your account"
 
     def deposit(self, amount):
         self.__balance += amount
+        print("hello deposited", amount, " ", self.__balance)
         return f"Deposited {amount} to your account"
 
 class Father(Account):
@@ -70,15 +87,17 @@ class Father(Account):
         super().__init__()
         if self.login:
             print(f"Welcome ${self.first_name} to your account")
+            print(self.login)
 
-    def withdraw(self, amount, balance):
-        super().withdraw()
+    def withdraw(self, amount):
+        print(super().withdraw(amount))
 
-    def deposit(self, amount, balance):
-        super().deposit()
+    def deposit(self, amount):
+        print(super().deposit(amount))
 
-    def check_balance(self):
-        print("self.balance = ", self.__balance)
+    def check_balance(self, balance):
+        balance = self.__balance
+        print(super().check_balance(balance))
 
 class Mother(Account):
     first_name = "Mother"
@@ -116,9 +135,9 @@ class Son(Account):
     def check_balance(self, p):
         print("self.balance = ", self.__balance)
 
-c = True
 while c:
-    obj = Father()
+    obj = Account()
+    
     ch = input("Enter end to continue else press any key")
     if ch == "end":
         c = False
