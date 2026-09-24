@@ -1,8 +1,10 @@
-from turtle import Screen, Turtle
-from Paddle import Paddle
+import time
+from turtle import Screen
 from ball import Ball
+from Paddle import Paddle
 from scoreboard import Scoreboard
 
+WINNING_SCORE = 5
 
 screen = Screen()
 screen.bgcolor("black")
@@ -10,8 +12,8 @@ screen.setup(width=800, height=600)
 screen.title("Pong")
 screen.tracer(0)
 
-r_paddle = Paddle((350, 0))
-l_paddle = Paddle((-350, 0))
+r_paddle = Paddle((370, 0))
+l_paddle = Paddle((-370, 0))
 ball = Ball()
 scoreboard = Scoreboard()
 
@@ -24,24 +26,33 @@ screen.onkey(l_paddle.go_down, "s")
 game_is_on = True
 while game_is_on:
     screen.update()
+    time.sleep(ball.move_speed)
     ball.move()
 
-    #Detect collision with wall
+    # Wall bounce
     if ball.ycor() > 280 or ball.ycor() < -280:
-        ball.bounce_y()
+        ball.bounce_wall()
 
-    #Detect collision with paddle
-    if ball.distance(r_paddle) < 50 and ball.xcor() > 320 or ball.distance(l_paddle) < 50 and ball.xcor() < -320:
-        ball.bounce_x()
+    # Paddle bounce (only near the correct side, cheap check first)
+    if ball.xcor() > 350 and r_paddle.is_touching(ball):
+        ball.bounce_paddle(r_paddle)
+    elif ball.xcor() < -350 and l_paddle.is_touching(ball):
+        ball.bounce_paddle(l_paddle)
 
-    #Detect R paddle misses
-    if ball.xcor() > 380:
-        ball.reset_position()
+    # Missed -- someone scores
+    if ball.xcor() > 390:
         scoreboard.l_point()
-
-    #Detect L paddle misses:
-    if ball.xcor() < -380:
-        ball.reset_position()
+        ball.reset_position(direction=-1)
+    elif ball.xcor() < -390:
         scoreboard.r_point()
+        ball.reset_position(direction=1)
+
+    # Win condition
+    if scoreboard.l_score == WINNING_SCORE:
+        scoreboard.game_over("Left player")
+        game_is_on = False
+    elif scoreboard.r_score == WINNING_SCORE:
+        scoreboard.game_over("Right player")
+        game_is_on = False
 
 screen.exitonclick()
