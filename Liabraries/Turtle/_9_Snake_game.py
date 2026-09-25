@@ -86,6 +86,7 @@ def increase_snake_size():
     snake_obj2.color("white")
     snake_obj2.speed(current_speed)   # match current game speed, not default 3
     snake_obj2.penup()
+    screen.tracer(0)
 
     if len(snake_body) > 0:
         last_x, last_y = snake_body[-1].xcor(), snake_body[-1].ycor()
@@ -153,6 +154,7 @@ while is_game_on:
         food_ate = False
         update_score()
         increase_snake_size()
+        screen.update()
 
     if score != 0 and score % 2 == 0 and score != last_speed_up_score:
         print("Speed is increased")
