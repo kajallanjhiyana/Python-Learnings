@@ -1,0 +1,2 @@
+# Day 6 — Tuple, Dict, Set Methods
+# Tuple immutability/unpacking. Dict: .keys(), .values(), .items(), .get(), .update(), .setdefault(). Set: .add(), .union(), .intersection(). Pairs with: Length of Last Word, Add Binary.

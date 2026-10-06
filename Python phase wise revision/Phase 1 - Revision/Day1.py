@@ -1,0 +1,2 @@
+# Day 1 — Variables, Data Types, Operators
+# Data types (int, float, str, bool, list, tuple, dict, set), type conversion, operators (arithmetic/comparison/logical), print()/input(), f-strings. Pairs with: Move Zeroes, Majority Element.
