@@ -23,6 +23,7 @@ for i in file:
 file.seek(0)
 for i in file:
     print(i)
+file.close()
 
 # "with open()" is preferred because Python automatically
 # closes the file when the block is finished.
