@@ -43,4 +43,4 @@ for i in range(num):
 print("--- Report Card ---")
 for sno, (name, mark, grade) in enumerate(zip(names, marks, grades), start=1):
     print(f"{sno}. {name} - {mark} - Grade: {grade}")
-    
+
