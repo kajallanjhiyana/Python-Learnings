@@ -92,7 +92,7 @@ print(f"I like {s}.") #I like Dandelions.
 print("I like {}.".format(s)) #I like Dandelions.
 
 #! Escape Characters
-#\n - new line
+# \n - new line
 # \t	Tab
 # \\	Backslash
 # \"	Double quote
