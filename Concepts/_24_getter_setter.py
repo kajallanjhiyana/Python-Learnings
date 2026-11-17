@@ -3,13 +3,15 @@ class User:
     __brother_age = 90
     def __init__(self):
         print("hey user your age is ", self._age)
-
+    
+    #A getter is a method used to get or read the value of a variable.
     def get_age(self):
         return self._age
 
     def get_brother_age(self):
         return self.__brother_age
 
+    #A setter is a method used to modify or update the value of a variable, usually with validation.
     def set_brother_age(self, new):
         if new >0:
             self.__brother_age = new
