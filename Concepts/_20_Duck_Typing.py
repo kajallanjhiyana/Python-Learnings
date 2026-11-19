@@ -1,3 +1,4 @@
+# "Duck typing means Python cares about what an object can do, not what the object is."
 import random
 class GooglePay:
     def pay(self):
